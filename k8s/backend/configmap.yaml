@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: todo-app
+data:
+  AWS_REGION: "us-east-1"
+  DYNAMODB_TABLE_NAME: "todo-app-table"
+  DEBUG: "False"
+  ALLOWED_HOSTS: "*"
+  CORS_ALLOW_ALL_ORIGINS: "True"

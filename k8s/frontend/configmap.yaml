@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: todo-app
+data:
+  # This will be the internal service URL
+  # For production, this should be set to the actual backend URL
+  VITE_API_URL: "http://backend:8000/api"
