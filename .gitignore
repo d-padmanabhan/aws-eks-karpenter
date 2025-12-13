@@ -101,3 +101,6 @@ logs/
 *.pid
 irsa-role-arn.txt
 tfplan
+
+# Context management files (workspace-specific)
+extras/

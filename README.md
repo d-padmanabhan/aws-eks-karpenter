@@ -1,4 +1,4 @@
-# Production-Grade Todo App on AWS EKS with Karpenter
+# Production-Grade Todo App on Amazon EKS with Karpenter
 
 A fully production-ready, cloud-native Todo application demonstrating modern DevOps practices, Kubernetes orchestration, and AWS infrastructure automation. This project showcases enterprise-grade deployment patterns using EKS, Karpenter auto-scaling, Infrastructure as Code (Terraform), and containerization best practices.
 
@@ -1020,7 +1020,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- [AWS EKS](https://aws.amazon.com/eks/) - Managed Kubernetes service
+- [Amazon EKS](https://aws.amazon.com/eks/) - Managed Kubernetes service
 - [Karpenter](https://karpenter.sh/) - Kubernetes node provisioner
 - [Terraform AWS Modules](https://github.com/terraform-aws-modules) - High-quality Terraform modules
 - [Django](https://www.djangoproject.com/) - Python web framework
