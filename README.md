@@ -28,6 +28,8 @@ A fully production-ready, cloud-native Todo application demonstrating modern Dev
 - [CI/CD](#cicd)
 - [Contributing](#contributing)
 - [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Support](#support)
 
 ## Architecture Overview
 
@@ -913,10 +915,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@main
       
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@main
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -924,7 +926,7 @@ jobs:
       
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@main
       
       - name: Build and push backend
         env:
@@ -988,7 +990,7 @@ Contributions are welcome! Please follow these guidelines:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
@@ -1030,19 +1032,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Issues**: [GitHub Issues](https://github.com/d-padmanabhan/aws-eks-karpenter/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/d-padmanabhan/aws-eks-karpenter/discussions)
 - **Email**: [Your Email]
-
-## Roadmap
-
-- [ ] Add Prometheus + Grafana monitoring
-- [ ] Implement AWS WAF for security
-- [ ] Add CloudFront CDN for frontend
-- [ ] Implement multi-region deployment
-- [ ] Add comprehensive test suite
-- [ ] Implement GitOps with ArgoCD
-- [ ] Add user authentication
-- [ ] Implement CI/CD pipeline
-- [ ] Add API rate limiting
-- [ ] Implement data backup and restore
 
 ---
 
