@@ -499,4 +499,4 @@ For issues:
 
 ---
 
-**Karpenter is now managing your cluster auto-scaling! 🚀**
+**Karpenter is now managing your cluster auto-scaling!**

@@ -1,4 +1,4 @@
-# 🚀 Production-Grade Todo App on AWS EKS with Karpenter
+# Production-Grade Todo App on AWS EKS with Karpenter
 
 A fully production-ready, cloud-native Todo application demonstrating modern DevOps practices, Kubernetes orchestration, and AWS infrastructure automation. This project showcases enterprise-grade deployment patterns using EKS, Karpenter auto-scaling, Infrastructure as Code (Terraform), and containerization best practices.
 
@@ -9,27 +9,27 @@ A fully production-ready, cloud-native Todo application demonstrating modern Dev
 [![React](https://img.shields.io/badge/React-18.2-blue?logo=react)](https://reactjs.org/)
 [![Karpenter](https://img.shields.io/badge/Karpenter-v0.33.0-success)](https://karpenter.sh/)
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [Architecture Overview](#-architecture-overview)
-- [Features](#-features)
-- [Technology Stack](#-technology-stack)
-- [Prerequisites](#-prerequisites)
-- [Quick Start](#-quick-start)
-- [Detailed Setup](#-detailed-setup)
-- [Project Structure](#-project-structure)
-- [Infrastructure](#-infrastructure)
-- [Karpenter Auto-Scaling](#-karpenter-auto-scaling)
-- [Deployment](#-deployment)
-- [Monitoring & Operations](#-monitoring--operations)
-- [Security](#-security)
-- [Cost Optimization](#-cost-optimization)
-- [Troubleshooting](#-troubleshooting)
-- [CI/CD](#-cicd)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Architecture Overview](#architecture-overview)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [Detailed Setup](#detailed-setup)
+- [Project Structure](#project-structure)
+- [Infrastructure](#infrastructure)
+- [Karpenter Auto-Scaling](#karpenter-auto-scaling)
+- [Deployment](#deployment)
+- [Monitoring & Operations](#monitoring--operations)
+- [Security](#security)
+- [Cost Optimization](#cost-optimization)
+- [Troubleshooting](#troubleshooting)
+- [CI/CD](#cicd)
+- [Contributing](#contributing)
+- [License](#license)
 
-## 🏗 Architecture Overview
+## Architecture Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -99,34 +99,34 @@ A fully production-ready, cloud-native Todo application demonstrating modern Dev
 6. **Auto-scaling**: Karpenter provisions nodes based on pod requirements
 7. **Interruption Handling**: EventBridge → SQS → Karpenter for spot instance management
 
-## ✨ Features
+## Features
 
 ### Application Features
-- ✅ **CRUD Operations**: Create, Read, Update, Delete todos
-- ✅ **Real-time Updates**: Instant UI updates on state changes
-- ✅ **Responsive Design**: Beautiful UI with Tailwind CSS
-- ✅ **Error Handling**: Comprehensive error messages and recovery
-- ✅ **Health Checks**: Backend and frontend health monitoring
-- ✅ **Persistent Storage**: DynamoDB for reliable data storage
+- **CRUD Operations**: Create, Read, Update, Delete todos
+- **Real-time Updates**: Instant UI updates on state changes
+- **Responsive Design**: Beautiful UI with Tailwind CSS
+- **Error Handling**: Comprehensive error messages and recovery
+- **Health Checks**: Backend and frontend health monitoring
+- **Persistent Storage**: DynamoDB for reliable data storage
 
 ### Infrastructure Features
-- 🚀 **Kubernetes Orchestration**: EKS cluster with managed node groups
-- 📈 **Auto-scaling**: Horizontal Pod Autoscaler (HPA) + Karpenter
-- 🔒 **Security**: IRSA, Security Groups, Network Policies
-- 📊 **Observability**: CloudWatch logs and metrics
-- 💰 **Cost Optimization**: Spot instances with Karpenter
-- 🔄 **High Availability**: Multi-AZ deployment
-- 🛡️ **Fault Tolerance**: Automatic node replacement
-- 📦 **Containerization**: Docker containers for both frontend and backend
+- **Kubernetes Orchestration**: EKS cluster with managed node groups
+- **Auto-scaling**: Horizontal Pod Autoscaler (HPA) + Karpenter
+- **Security**: IRSA, Security Groups, Network Policies
+- **Observability**: CloudWatch logs and metrics
+- **Cost Optimization**: Spot instances with Karpenter
+- **High Availability**: Multi-AZ deployment
+- **Fault Tolerance**: Automatic node replacement
+- **Containerization**: Docker containers for both frontend and backend
 
 ### DevOps Features
-- 🏗️ **Infrastructure as Code**: Complete Terraform automation
-- 🔄 **GitOps Ready**: Declarative Kubernetes manifests
-- 🚀 **CI/CD Ready**: Automated build and deployment scripts
-- 📝 **Documentation**: Comprehensive guides and runbooks
-- 🧪 **Testing**: Health check endpoints and monitoring
+- **Infrastructure as Code**: Complete Terraform automation
+- **GitOps Ready**: Declarative Kubernetes manifests
+- **CI/CD Ready**: Automated build and deployment scripts
+- **Documentation**: Comprehensive guides and runbooks
+- **Testing**: Health check endpoints and monitoring
 
-## 🛠 Technology Stack
+## Technology Stack
 
 ### Frontend
 - **Framework**: React 18.2 with Hooks
@@ -160,7 +160,7 @@ A fully production-ready, cloud-native Todo application demonstrating modern Dev
 - **Monitoring**: CloudWatch Container Insights
 - **Alerting**: CloudWatch Alarms
 
-## 📚 Prerequisites
+## Prerequisites
 
 ### Required Tools
 - **AWS CLI** (v2.0+) - [Install Guide](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
@@ -199,7 +199,7 @@ Estimated monthly costs (us-east-1):
 
 Using Karpenter with spot instances can reduce costs by up to 70%.
 
-## 🚀 Quick Start
+## Quick Start
 
 Get the application running in under 30 minutes:
 
@@ -238,7 +238,7 @@ cd ../../
 kubectl get ingress -n todo-app
 ```
 
-## 📖 Detailed Setup
+## Detailed Setup
 
 ### Step 1: Infrastructure Deployment
 
@@ -453,7 +453,7 @@ curl http://${ALB_URL}/api/health/
 open http://${ALB_URL}
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 aws-eks-karpenter/
@@ -536,7 +536,7 @@ aws-eks-karpenter/
 └── README.md                     # This file
 ```
 
-## 🏗 Infrastructure
+## Infrastructure
 
 ### VPC Architecture
 
@@ -574,7 +574,7 @@ The VPC is configured with:
 2. **Karpenter Controller Role**: Allows Karpenter to provision EC2 instances
 3. **Karpenter Node Role**: Attached to nodes provisioned by Karpenter
 
-## 🔄 Karpenter Auto-Scaling
+## Karpenter Auto-Scaling
 
 Karpenter is a flexible, high-performance Kubernetes cluster autoscaler that automatically provisions right-sized compute resources.
 
@@ -626,7 +626,7 @@ Cordon Node → Drain Pods → Provision Replacement → Terminate Node
 
 See [Karpenter README](k8s/karpenter/README.md) for detailed documentation.
 
-## 🚀 Deployment
+## Deployment
 
 ### Deployment Strategies
 
@@ -685,7 +685,7 @@ kubectl patch service backend -n todo-app -p '{"spec":{"selector":{"version":"v2
 kubectl delete deployment backend-v1 -n todo-app
 ```
 
-## 📊 Monitoring & Operations
+## Monitoring & Operations
 
 ### Health Checks
 
@@ -744,7 +744,7 @@ kubectl apply -f https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch
 # Navigate to CloudWatch → Container Insights → Performance monitoring
 ```
 
-## 🔒 Security
+## Security
 
 ### Network Security
 
@@ -777,7 +777,7 @@ kubectl apply -f https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch
 5. **Regular Updates**: Keep dependencies and images updated
 6. **Audit Logging**: Enable CloudTrail and EKS audit logs
 
-## 💰 Cost Optimization
+## Cost Optimization
 
 ### Karpenter Savings
 
@@ -819,7 +819,7 @@ aws cloudwatch put-metric-alarm \
   --comparison-operator GreaterThanThreshold
 ```
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -898,7 +898,7 @@ kubectl top pods -n todo-app
 kubectl top nodes
 ```
 
-## 🔄 CI/CD
+## CI/CD
 
 ### GitHub Actions Example
 
@@ -951,7 +951,7 @@ jobs:
           kubectl set image deployment/frontend frontend=$ECR_REGISTRY/todo-frontend:${{ github.sha }} -n todo-app
 ```
 
-## 🧹 Cleanup
+## Cleanup
 
 ### Delete Application
 
@@ -982,7 +982,7 @@ terraform destroy
 
 **Note**: This will delete all resources including the DynamoDB table and all data.
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these guidelines:
 
@@ -1012,11 +1012,11 @@ npm install
 npm run dev
 ```
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [AWS EKS](https://aws.amazon.com/eks/) - Managed Kubernetes service
 - [Karpenter](https://karpenter.sh/) - Kubernetes node provisioner
@@ -1025,13 +1025,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [React](https://reactjs.org/) - JavaScript library for building user interfaces
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 
-## 📞 Support
+## Support
 
 - **Issues**: [GitHub Issues](https://github.com/d-padmanabhan/aws-eks-karpenter/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/d-padmanabhan/aws-eks-karpenter/discussions)
 - **Email**: [Your Email]
 
-## 🗺 Roadmap
+## Roadmap
 
 - [ ] Add Prometheus + Grafana monitoring
 - [ ] Implement AWS WAF for security
@@ -1046,6 +1046,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Made with ❤️ for the Kubernetes and DevOps community**
+**Made with love for the Kubernetes and DevOps community**
 
-If you find this project helpful, please give it a ⭐️!
+If you find this project helpful, please give it a star!
