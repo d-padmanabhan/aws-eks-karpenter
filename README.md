@@ -14,6 +14,7 @@ A fully production-ready, cloud-native Todo application demonstrating modern Dev
 - [Architecture Overview](#architecture-overview)
 - [Features](#features)
 - [Technology Stack](#technology-stack)
+- [Pod Authentication Modes](#pod-authentication-modes)
 - [Prerequisites](#prerequisites)
 - [Quick Start](#quick-start)
 - [Detailed Setup](#detailed-setup)
@@ -83,8 +84,8 @@ A fully production-ready, cloud-native Todo application demonstrating modern Dev
 │                                                                          │
 │  ┌──────────────┐         ┌──────────────┐        ┌──────────────┐    │
 │  │     ECR      │         │     IAM      │        │  CloudWatch  │    │
-│  │              │         │              │        │              │    │
-│  │ Docker Images│         │ IRSA Roles   │        │   Logs       │    │
+│  │              │         │  (IRSA or    │        │              │    │
+│  │ Docker Images│         │ Pod Identity)│        │   Logs       │    │
 │  └──────────────┘         └──────────────┘        └──────────────┘    │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
@@ -112,7 +113,7 @@ A fully production-ready, cloud-native Todo application demonstrating modern Dev
 ### Infrastructure Features
 - **Kubernetes Orchestration**: EKS cluster with managed node groups
 - **Auto-scaling**: Horizontal Pod Autoscaler (HPA) + Karpenter
-- **Security**: IRSA, Security Groups, Network Policies
+- **Security**: IRSA or Pod Identity, Security Groups, Network Policies
 - **Observability**: CloudWatch logs and metrics
 - **Cost Optimization**: Spot instances with Karpenter
 - **High Availability**: Multi-AZ deployment
@@ -159,6 +160,43 @@ A fully production-ready, cloud-native Todo application demonstrating modern Dev
 - **Metrics**: CloudWatch Metrics + Prometheus (optional)
 - **Monitoring**: CloudWatch Container Insights
 - **Alerting**: CloudWatch Alarms
+
+## Pod Authentication Modes
+
+This project supports **two authentication methods** for pods to access AWS services:
+
+### 🔐 Authentication Options
+
+| Method | Status | When to Use |
+|--------|--------|-------------|
+| **IRSA** (IAM Roles for Service Accounts) | ✅ Default | Existing clusters, maximum compatibility |
+| **Pod Identity** (EKS Pod Identity) | ✨ Modern | New clusters, simpler setup |
+
+### Quick Comparison
+
+- **IRSA** (2019): Traditional, requires OIDC provider, widely documented
+- **Pod Identity** (2023): Simpler setup, faster credentials (5 min vs 15 min), no OIDC needed
+
+### Configuration
+
+Set in `terraform/terraform.tfvars`:
+
+```hcl
+# For IRSA (default)
+pod_authentication_mode = "irsa"
+
+# For Pod Identity (newer, simpler)
+pod_authentication_mode = "pod-identity"
+```
+
+### 📚 Detailed Documentation
+
+See [docs/POD-AUTHENTICATION-MODES.md](docs/POD-AUTHENTICATION-MODES.md) for:
+- Detailed architecture comparison
+- Trust policy differences
+- Migration guide between modes
+- Troubleshooting tips
+- Performance considerations
 
 ## Prerequisites
 

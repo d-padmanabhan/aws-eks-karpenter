@@ -22,6 +22,17 @@ variable "cluster_version" {
   default     = "1.28"
 }
 
+variable "pod_authentication_mode" {
+  description = "Pod authentication mode: 'irsa' for IAM Roles for Service Accounts or 'pod-identity' for EKS Pod Identity"
+  type        = string
+  default     = "irsa"
+
+  validation {
+    condition     = contains(["irsa", "pod-identity"], var.pod_authentication_mode)
+    error_message = "pod_authentication_mode must be either 'irsa' or 'pod-identity'."
+  }
+}
+
 variable "vpc_cidr" {
   description = "VPC CIDR block"
   type        = string

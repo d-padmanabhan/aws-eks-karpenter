@@ -43,9 +43,20 @@ output "dynamodb_table_arn" {
   value       = aws_dynamodb_table.todos.arn
 }
 
+output "pod_authentication_mode" {
+  description = "Pod authentication mode being used"
+  value       = var.pod_authentication_mode
+}
+
+output "backend_role_arn" {
+  description = "IAM role ARN for backend service account (IRSA or Pod Identity)"
+  value       = var.pod_authentication_mode == "irsa" ? aws_iam_role.backend_irsa[0].arn : aws_iam_role.backend_pod_identity[0].arn
+}
+
+# Deprecated: Use backend_role_arn instead
 output "backend_irsa_role_arn" {
-  description = "IAM role ARN for backend service account"
-  value       = aws_iam_role.backend_irsa.arn
+  description = "[DEPRECATED] Use backend_role_arn instead. IAM role ARN for backend service account"
+  value       = var.pod_authentication_mode == "irsa" ? aws_iam_role.backend_irsa[0].arn : "N/A (using Pod Identity mode)"
 }
 
 output "configure_kubectl" {

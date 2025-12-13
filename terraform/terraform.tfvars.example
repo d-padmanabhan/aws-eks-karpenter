@@ -6,6 +6,12 @@ environment = "production"
 cluster_name    = "todo-app-cluster"
 cluster_version = "1.28"
 
+# Pod Authentication Mode
+# Options: "irsa" (IAM Roles for Service Accounts - traditional, battle-tested)
+#          "pod-identity" (EKS Pod Identity - newer, simpler, GA since 2023)
+# Default: "irsa"
+pod_authentication_mode = "irsa"
+
 # VPC Configuration
 vpc_cidr = "10.0.0.0/16"
 

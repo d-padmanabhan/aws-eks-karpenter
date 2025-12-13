@@ -13,24 +13,32 @@ module "eks" {
   cluster_endpoint_public_access  = true
   cluster_endpoint_private_access = true
 
-  # OIDC Provider for IRSA
-  enable_irsa = true
+  # OIDC Provider for IRSA (only needed when using IRSA mode)
+  enable_irsa = var.pod_authentication_mode == "irsa" ? true : false
 
   # Cluster addons
-  cluster_addons = {
-    coredns = {
-      most_recent = true
-    }
-    kube-proxy = {
-      most_recent = true
-    }
-    vpc-cni = {
-      most_recent = true
-    }
-    aws-ebs-csi-driver = {
-      most_recent = true
-    }
-  }
+  cluster_addons = merge(
+    {
+      coredns = {
+        most_recent = true
+      }
+      kube-proxy = {
+        most_recent = true
+      }
+      vpc-cni = {
+        most_recent = true
+      }
+      aws-ebs-csi-driver = {
+        most_recent = true
+      }
+    },
+    # Add Pod Identity agent addon when using Pod Identity mode
+    var.pod_authentication_mode == "pod-identity" ? {
+      eks-pod-identity-agent = {
+        most_recent = true
+      }
+    } : {}
+  )
 
   # EKS Managed Node Group
   eks_managed_node_groups = {
@@ -108,9 +116,14 @@ module "eks" {
   }
 }
 
-# IAM Role for Service Account (IRSA) for backend pods
+# ==============================================================================
+# Backend Pod Authentication - Supports both IRSA and Pod Identity
+# ==============================================================================
+
+# IAM Role for IRSA mode (traditional method using OIDC)
 resource "aws_iam_role" "backend_irsa" {
-  name = "${var.cluster_name}-backend-irsa"
+  count = var.pod_authentication_mode == "irsa" ? 1 : 0
+  name  = "${var.cluster_name}-backend-irsa"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -132,7 +145,35 @@ resource "aws_iam_role" "backend_irsa" {
   })
 
   tags = {
-    Name = "${var.cluster_name}-backend-irsa"
+    Name               = "${var.cluster_name}-backend-irsa"
+    AuthenticationMode = "irsa"
+  }
+}
+
+# IAM Role for Pod Identity mode (newer, simpler method)
+resource "aws_iam_role" "backend_pod_identity" {
+  count = var.pod_authentication_mode == "pod-identity" ? 1 : 0
+  name  = "${var.cluster_name}-backend-pod-identity"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "pods.eks.amazonaws.com"
+        }
+        Action = [
+          "sts:AssumeRole",
+          "sts:TagSession"
+        ]
+      }
+    ]
+  })
+
+  tags = {
+    Name               = "${var.cluster_name}-backend-pod-identity"
+    AuthenticationMode = "pod-identity"
   }
 }
 
@@ -161,8 +202,29 @@ resource "aws_iam_policy" "dynamodb_access" {
   })
 }
 
-# Attach policy to IRSA role
-resource "aws_iam_role_policy_attachment" "backend_dynamodb" {
-  role       = aws_iam_role.backend_irsa.name
+# Attach DynamoDB policy to IRSA role
+resource "aws_iam_role_policy_attachment" "backend_dynamodb_irsa" {
+  count      = var.pod_authentication_mode == "irsa" ? 1 : 0
+  role       = aws_iam_role.backend_irsa[0].name
   policy_arn = aws_iam_policy.dynamodb_access.arn
+}
+
+# Attach DynamoDB policy to Pod Identity role
+resource "aws_iam_role_policy_attachment" "backend_dynamodb_pod_identity" {
+  count      = var.pod_authentication_mode == "pod-identity" ? 1 : 0
+  role       = aws_iam_role.backend_pod_identity[0].name
+  policy_arn = aws_iam_policy.dynamodb_access.arn
+}
+
+# Pod Identity Association (only for Pod Identity mode)
+resource "aws_eks_pod_identity_association" "backend" {
+  count           = var.pod_authentication_mode == "pod-identity" ? 1 : 0
+  cluster_name    = module.eks.cluster_name
+  namespace       = "todo-app"
+  service_account = "backend-sa"
+  role_arn        = aws_iam_role.backend_pod_identity[0].arn
+
+  tags = {
+    Name = "${var.cluster_name}-backend-pod-identity-association"
+  }
 }
