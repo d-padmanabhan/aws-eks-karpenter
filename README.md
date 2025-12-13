@@ -28,8 +28,6 @@ A fully production-ready, cloud-native Todo application demonstrating modern Dev
 - [CI/CD](#cicd)
 - [Contributing](#contributing)
 - [License](#license)
-- [Acknowledgments](#acknowledgments)
-- [Support](#support)
 
 ## Architecture Overview
 
@@ -1017,24 +1015,3 @@ npm run dev
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- [Amazon EKS](https://aws.amazon.com/eks/) - Managed Kubernetes service
-- [Karpenter](https://karpenter.sh/) - Kubernetes node provisioner
-- [Terraform AWS Modules](https://github.com/terraform-aws-modules) - High-quality Terraform modules
-- [Django](https://www.djangoproject.com/) - Python web framework
-- [React](https://reactjs.org/) - JavaScript library for building user interfaces
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-
-## Support
-
-- **Issues**: [GitHub Issues](https://github.com/d-padmanabhan/aws-eks-karpenter/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/d-padmanabhan/aws-eks-karpenter/discussions)
-- **Email**: [Your Email]
-
----
-
-**Made with love for the Kubernetes and DevOps community**
-
-If you find this project helpful, please give it a star!
