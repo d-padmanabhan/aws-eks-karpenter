@@ -165,12 +165,12 @@ A fully production-ready, cloud-native Todo application demonstrating modern Dev
 
 This project supports **two authentication methods** for pods to access AWS services:
 
-### 🔐 Authentication Options
+### Authentication Options
 
 | Method | Status | When to Use |
 |--------|--------|-------------|
-| **IRSA** (IAM Roles for Service Accounts) | ✅ Default | Existing clusters, maximum compatibility |
-| **Pod Identity** (EKS Pod Identity) | ✨ Modern | New clusters, simpler setup |
+| **IRSA** (IAM Roles for Service Accounts) | Default | Existing clusters, maximum compatibility |
+| **Pod Identity** (EKS Pod Identity) | Modern (2023) | New clusters, simpler setup |
 
 ### Quick Comparison
 
@@ -189,9 +189,9 @@ pod_authentication_mode = "irsa"
 pod_authentication_mode = "pod-identity"
 ```
 
-### 📚 Detailed Documentation
+### Detailed Documentation
 
-See [docs/POD-AUTHENTICATION-MODES.md](docs/POD-AUTHENTICATION-MODES.md) for:
+See [docs/pod-authentication-modes.md](docs/pod-authentication-modes.md) for:
 - Detailed architecture comparison
 - Trust policy differences
 - Migration guide between modes
