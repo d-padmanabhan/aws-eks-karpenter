@@ -23,17 +23,17 @@ This project supports **two authentication methods** for pods to access AWS serv
 ## How to Choose
 
 ### Choose IRSA if:
-- ✅ You have an existing cluster with IRSA already configured
-- ✅ You need maximum regional availability
-- ✅ You prefer the battle-tested, widely-documented solution
-- ✅ Your team is already familiar with OIDC-based authentication
+- You have an existing cluster with IRSA already configured
+- You need maximum regional availability
+- You prefer the battle-tested, widely-documented solution
+- Your team is already familiar with OIDC-based authentication
 
 ### Choose Pod Identity if:
-- ✅ You're deploying a new cluster
-- ✅ You want simpler IAM configuration (no OIDC setup)
-- ✅ You want faster credential rotation (5 min vs 15 min)
-- ✅ You're experiencing STS API throttling issues
-- ✅ You want to demonstrate modern AWS best practices
+- You're deploying a new cluster
+- You want simpler IAM configuration (no OIDC setup)
+- You want faster credential rotation (5 min vs 15 min)
+- You're experiencing STS API throttling issues
+- You want to demonstrate modern AWS best practices
 
 ## Configuration
 
@@ -341,10 +341,10 @@ For clusters with **many pods** (100+), Pod Identity can significantly reduce ST
 ## Security Considerations
 
 ### Both methods provide:
-- ✅ No hardcoded credentials in code or containers
-- ✅ Temporary credentials that auto-rotate
-- ✅ Least-privilege access (IAM policies)
-- ✅ Audit trail in CloudTrail
+- No hardcoded credentials in code or containers
+- Temporary credentials that auto-rotate
+- Least-privilege access (IAM policies)
+- Audit trail in CloudTrail
 
 ### IRSA specific:
 - Trust policy explicitly validates namespace and ServiceAccount name
