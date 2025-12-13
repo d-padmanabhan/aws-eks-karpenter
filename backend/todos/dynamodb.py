@@ -2,9 +2,7 @@
 DynamoDB client and operations for Todo items.
 """
 import boto3
-from boto3.dynamodb.conditions import Key, Attr
 from django.conf import settings
-from decimal import Decimal
 import uuid
 from datetime import datetime
 
