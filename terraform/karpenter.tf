@@ -7,9 +7,14 @@ data "aws_caller_identity" "current" {}
 # Data source for AWS partition
 data "aws_partition" "current" {}
 
-# IAM Role for Karpenter Controller
-resource "aws_iam_role" "karpenter_controller" {
-  name = "${var.cluster_name}-karpenter-controller"
+# ==============================================================================
+# Karpenter Controller Authentication - Supports both IRSA and Pod Identity
+# ==============================================================================
+
+# IAM Role for Karpenter Controller - IRSA mode
+resource "aws_iam_role" "karpenter_controller_irsa" {
+  count = var.pod_authentication_mode == "irsa" ? 1 : 0
+  name  = "${var.cluster_name}-karpenter-controller-irsa"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -31,7 +36,35 @@ resource "aws_iam_role" "karpenter_controller" {
   })
 
   tags = {
-    Name = "${var.cluster_name}-karpenter-controller"
+    Name               = "${var.cluster_name}-karpenter-controller-irsa"
+    AuthenticationMode = "irsa"
+  }
+}
+
+# IAM Role for Karpenter Controller - Pod Identity mode
+resource "aws_iam_role" "karpenter_controller_pod_identity" {
+  count = var.pod_authentication_mode == "pod-identity" ? 1 : 0
+  name  = "${var.cluster_name}-karpenter-controller-pod-identity"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "pods.eks.amazonaws.com"
+        }
+        Action = [
+          "sts:AssumeRole",
+          "sts:TagSession"
+        ]
+      }
+    ]
+  })
+
+  tags = {
+    Name               = "${var.cluster_name}-karpenter-controller-pod-identity"
+    AuthenticationMode = "pod-identity"
   }
 }
 
@@ -122,10 +155,31 @@ resource "aws_iam_policy" "karpenter_controller" {
   })
 }
 
-# Attach policy to Karpenter controller role
-resource "aws_iam_role_policy_attachment" "karpenter_controller" {
-  role       = aws_iam_role.karpenter_controller.name
+# Attach policy to Karpenter controller role - IRSA mode
+resource "aws_iam_role_policy_attachment" "karpenter_controller_irsa" {
+  count      = var.pod_authentication_mode == "irsa" ? 1 : 0
+  role       = aws_iam_role.karpenter_controller_irsa[0].name
   policy_arn = aws_iam_policy.karpenter_controller.arn
+}
+
+# Attach policy to Karpenter controller role - Pod Identity mode
+resource "aws_iam_role_policy_attachment" "karpenter_controller_pod_identity" {
+  count      = var.pod_authentication_mode == "pod-identity" ? 1 : 0
+  role       = aws_iam_role.karpenter_controller_pod_identity[0].name
+  policy_arn = aws_iam_policy.karpenter_controller.arn
+}
+
+# Pod Identity Association for Karpenter (only for Pod Identity mode)
+resource "aws_eks_pod_identity_association" "karpenter" {
+  count           = var.pod_authentication_mode == "pod-identity" ? 1 : 0
+  cluster_name    = module.eks.cluster_name
+  namespace       = "karpenter"
+  service_account = "karpenter"
+  role_arn        = aws_iam_role.karpenter_controller_pod_identity[0].arn
+
+  tags = {
+    Name = "${var.cluster_name}-karpenter-pod-identity-association"
+  }
 }
 
 # IAM Role for Karpenter Nodes
@@ -307,8 +361,8 @@ resource "aws_ec2_tag" "karpenter_sg_tags" {
 
 # Outputs for Karpenter
 output "karpenter_controller_role_arn" {
-  description = "ARN of the Karpenter controller IAM role"
-  value       = aws_iam_role.karpenter_controller.arn
+  description = "ARN of the Karpenter controller IAM role (IRSA or Pod Identity)"
+  value       = var.pod_authentication_mode == "irsa" ? aws_iam_role.karpenter_controller_irsa[0].arn : aws_iam_role.karpenter_controller_pod_identity[0].arn
 }
 
 output "karpenter_node_role_name" {
